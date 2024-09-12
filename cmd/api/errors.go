@@ -6,6 +6,7 @@ import (
 )
 
 func (app *application) logError(r *http.Request, err error) {
+	app.logger.Helper()
 	app.logger.Error(err, "properties", map[string]string{
 		"request_method": r.Method,
 		"request_url":    r.URL.String(),
@@ -23,6 +24,7 @@ func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, st
 }
 
 func (app *application) serverErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
+	app.logger.Helper()
 	app.logError(r, err)
 	message := "the server encountered a problem and could not process your request"
 	app.errorResponse(w, r, http.StatusInternalServerError, message)
